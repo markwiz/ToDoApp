@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ToDoApp.Services;
 
 namespace ToDo
 {
@@ -18,6 +19,8 @@ namespace ToDo
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
+
 
             return builder.Build();
         }
