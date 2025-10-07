@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Windows.Graphics;
 #endif
 
+using ToDo.Views;
 
 
 namespace ToDo
@@ -28,7 +29,7 @@ namespace ToDo
             #endif
             });
 
-            //MainPage = new ToDoPage();
+            MainPage = new ToDoPage();
         }
 
         //protected override Window CreateWindow(IActivationState? activationState)
