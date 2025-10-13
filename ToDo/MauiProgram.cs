@@ -1,5 +1,11 @@
+<<<<<<< Updated upstream
 ﻿using Microsoft.Extensions.Logging;
 using ToDoApp.Services;
+=======
+﻿using ToDo.Services;
+using ToDo.Views;
+using ToDo.ViewModels;
+>>>>>>> Stashed changes
 
 namespace ToDo
 {
@@ -19,6 +25,7 @@ namespace ToDo
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
 
 
