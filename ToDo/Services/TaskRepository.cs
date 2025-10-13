@@ -1,9 +1,9 @@
 ﻿using SQLite;
-using ToDoApp.Models;
+using ToDo.Models;
 
-namespace ToDoApp.Services;
+namespace ToDo.Services;
 
-public sealed class TaskRepository : ITaskRepository
+public class TaskRepository : ITaskRepository
 {
     private SQLiteAsyncConnection? _db;
     private readonly string _dbPath;
@@ -14,7 +14,7 @@ public sealed class TaskRepository : ITaskRepository
         _dbPath = Path.Combine(FileSystem.AppDataDirectory, fileName);
     }
 
-    public async Task InitializeAsync()
+    private async Task Init()
     {
         if (_db != null) return;
         _db = new SQLiteAsyncConnection(_dbPath);
@@ -23,43 +23,41 @@ public sealed class TaskRepository : ITaskRepository
 
     public async Task<List<TaskItem>> GetAllAsync()
     {
-        await InitializeAsync();
-        return await _db!.Table<TaskItem>().OrderBy(t => t.IsCompleted).ThenBy(t => t.DueDate).ToListAsync();
+        await Init();
+        return await _db!.Table<TaskItem>().ToListAsync();
     }
 
     public async Task<List<TaskItem>> GetUncompletedAsync()
     {
-        await InitializeAsync();
-        return await _db!.Table<TaskItem>().Where(t => !t.IsCompleted).OrderBy(t => t.DueDate).ToListAsync();
+        await Init();
+        return await _db!.Table<TaskItem>().Where(t => !t.IsCompleted).ToListAsync();
     }
 
-    public async Task<List<TaskItem>> GetCompletedByDateRangeAsync(DateTime startLocal, DateTime endLocal)
+    public async Task<List<TaskItem>> GetCompletedAsync()
     {
-        await InitializeAsync();
-        var s = startLocal.Date; var e = endLocal.Date;
-        return await _db!.Table<TaskItem>()
-            .Where(t => t.IsCompleted && t.DueDate != null && t.DueDate.Value.Date >= s && t.DueDate.Value.Date <= e)
-            .OrderBy(t => t.DueDate).ToListAsync();
+        await Init();
+        return await _db!.Table<TaskItem>().Where(t => t.IsCompleted).ToListAsync();
     }
 
     public async Task<List<TaskItem>> GetTodayAsync(DateTime todayLocal)
     {
-        await InitializeAsync();
-        var d = todayLocal.Date;
+        await Init();
         return await _db!.Table<TaskItem>()
-            .Where(t => t.DueDate != null && t.DueDate.Value.Date == d)
-            .OrderBy(t => t.IsCompleted).ToListAsync();
+            .Where(t => t.DueDate != null && t.DueDate.Value.Date == todayLocal.Date)
+            .ToListAsync();
     }
 
     public async Task<int> AddOrUpdateAsync(TaskItem item)
     {
-        await InitializeAsync();
-        return item.Id == 0 ? await _db!.InsertAsync(item) : await _db!.UpdateAsync(item);
+        await Init();
+        return item.Id == 0
+            ? await _db!.InsertAsync(item)
+            : await _db!.UpdateAsync(item);
     }
 
     public async Task<int> DeleteAsync(int id)
     {
-        await InitializeAsync();
+        await Init();
         return await _db!.DeleteAsync<TaskItem>(id);
     }
 }
