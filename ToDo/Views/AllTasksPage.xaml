@@ -1,12 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToDo.Views.AllTasksPage"
-             Title="Kõik tegevused">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ToDo.Models"
+    x:Class="ToDo.Views.AllTasksPage"
+    Title="All Tasks">
 
-    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="20" Padding="20">
-        <Label Text="Hello MAUI!" FontSize="24" HorizontalOptions="Center"/>
-        <Button Text="Click Me" Clicked="OnButtonClicked"/>
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Add new task -->
+        <HorizontalStackLayout>
+            <Entry Placeholder="Enter new task"
+                   Text="{Binding NewTaskTitle}"
+                   HorizontalOptions="FillAndExpand" />
+            <Button Text="Add" Command="{Binding AddCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- Task list -->
+        <CollectionView ItemsSource="{Binding Tasks}"
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Padding="10" Margin="0,5"
+                                         BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#222}"
+                                         Spacing="5">
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <!-- Toggle complete -->
+                            <CheckBox IsChecked="{Binding IsCompleted}"
+                                      CheckedChanged="OnCheckBoxCheckedChanged" />
+
+                            <!-- Task title -->
+                            <Label Text="{Binding Title}" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <!-- Optional simple separator -->
+                        <BoxView HeightRequest="1"
+                                 Color="{AppThemeBinding Light=#ccc, Dark=#444}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
     </VerticalStackLayout>
-
 </ContentPage>

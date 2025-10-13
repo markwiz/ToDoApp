@@ -23,10 +23,8 @@ namespace ToDo
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
-
-           // builder.Services.AddTransient<ToDoPage>();
+            builder.Services.AddTransient<AllTasksViewModel>();
             builder.Services.AddTransient<AllTasksPage>();
-
 
             return builder.Build();
         }
