@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoApp.Views.AllTasksPage"
+             Title="Kõik tegevused">
+	<RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+		<CollectionView ItemsSource="{Binding Items}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<SwipeView>
+						<SwipeView.RightItems>
+							<SwipeItems Mode="Reveal">
+								<SwipeItem Text="Kustuta" Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding Id}" />
+							</SwipeItems>
+						</SwipeView.RightItems>
+						<Grid Padding="12" ColumnDefinitions="*,Auto" x:Name="ThisPage">
+							<VerticalStackLayout>
+								<Label Text="{Binding Title}" FontAttributes="Bold" />
+								<Label Text="{Binding DueDate, StringFormat='Tähtaeg: {0:dd.MM.yyyy}'}" FontSize="12"/>
+							</VerticalStackLayout>
+							<CheckBox Grid.Column="1" IsChecked="{Binding IsCompleted}" Command="{Binding BindingContext.ToggleCompleteCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}"/>
+						</Grid>
+					</SwipeView>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+	</RefreshView>
+</ContentPage>
