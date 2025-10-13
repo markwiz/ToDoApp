@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using ToDo.ViewModels;
+using ToDo.Views;
 using ToDoApp.Services;
 
 namespace ToDo
@@ -20,6 +22,8 @@ namespace ToDo
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
+            builder.Services.AddTransient<UncompletedTasksViewModel>();
+            builder.Services.AddTransient<UncompletedTasksPage>();
 
 
             return builder.Build();
