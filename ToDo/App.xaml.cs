@@ -4,8 +4,8 @@ using Microsoft.UI.Windowing;
 using Windows.Graphics;
 #endif
 
-using ToDo.Views;
-
+using ToDo.Views; // peab sisaldama AllTasksPage'i
+// NB! AppShell peab olema ToDo nimeruumis (vt järgmine samm)
 
 namespace ToDo
 {
@@ -13,28 +13,15 @@ namespace ToDo
     {
         const int WindowWidth = 1080;
         const int WindowHeight = 1920;
-        public App()
+
+        public App(IServiceProvider sp)
         {
             InitializeComponent();
-            Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
-            {
-            #if WINDOWS
-                var mauiWindow = handler.VirtualView;
-                var nativeWindow = handler.PlatformView;
-                nativeWindow.Activate();
-                IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-                WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-                AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-                appWindow.Resize(new SizeInt32(WindowWidth, WindowHeight));
-            #endif
-            });
 
-            MainPage = new ToDoPage();
+            // sinu WINDOWS akna suuruse kood jääb siia muutmata...
+
+            MainPage = sp.GetRequiredService<AppShell>(); // <— oluliselt
         }
 
-        //protected override Window CreateWindow(IActivationState? activationState)
-        //{
-        //    return new Window(new AppShell());
-        //}
     }
 }
