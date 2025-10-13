@@ -1,6 +1,6 @@
-﻿using ToDoApp.Models;
+﻿using ToDo.Models;
 
-namespace ToDoApp.Services;
+namespace ToDo.Services;
 
 public interface ITaskRepository
 {

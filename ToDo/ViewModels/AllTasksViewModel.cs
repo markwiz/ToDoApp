@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace ToDo.ViewModels;
 
-public partial class AllTasksViewModel : ObservableObject {...};
+public partial class AllTasksViewModel
 {
 }

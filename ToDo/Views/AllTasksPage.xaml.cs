@@ -4,19 +4,16 @@ namespace ToDo.Views
 {
     public partial class AllTasksPage : ContentPage
     {
-        private readonly AllTasksViewModel _vm;
+        //private readonly AllTasksViewModel _vm;
 
-        public AllTasksPage(AllTasksViewModel vm)
+        public AllTasksPage()
         {
-            InitializeComponent();
-            _vm = vm;
-            BindingContext = _vm;
+            InitializeComponent(); // This MUST be called for XAML to load
         }
 
-        protected override async void OnAppearing()
+        private async void OnButtonClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            await _vm.RefreshAsync(); // Lae andmed kui leht ilmub
+            await DisplayAlert("Button Clicked", "You pressed the button!", "OK");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace ToDoApp.Models;
+namespace ToDo.Models;
 
 public class TaskItem
 {
