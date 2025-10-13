@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDo.ViewModels
+namespace ToDo.ViewModels;
+
+public partial class AllTasksViewModel : ObservableObject {...};
 {
-    internal class AllTasksViewModel
-    {
-    }
 }
