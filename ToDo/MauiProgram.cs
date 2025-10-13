@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ToDoApp.Services;
+using ToDoApp.ViewModels;
+using ToDoApp.Views;
 
 namespace ToDo
 {
@@ -20,6 +22,9 @@ namespace ToDo
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
+
+            builder.Services.AddTransient<AllTasksViewModel>();
+            builder.Services.AddTransient<AllTasksPage>();
 
 
             return builder.Build();
